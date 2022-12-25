@@ -12,11 +12,21 @@ public abstract class Chess {
     private int blackRepentance=0;//黑棋悔棋次数
     private int whiteRepentance=0;//白棋悔棋次数
     private int maxRepentance=3;//最多悔棋次数
+    protected User user;
+    private String filenama="save//";
+
+    public User getUser(){
+        return user;
+    }
     public int  getWinner(){return winner;}
     public int getTurn(){
         return turn;
     }
 
+    public void initRepentance(){
+        blackRepentance=0;
+        whiteRepentance=0;
+    }
     public Chess() {
         for (int i = 0; i < ChessPositonList.length; i++) {
             ChessPositonList[i][0] = -1;
@@ -25,17 +35,7 @@ public abstract class Chess {
         }
     }
     //重新开始游戏
-    public void startGame(){
-        for (int i = 0; i < isAvail.length; i++)
-        for (int j = 0; j < isAvail.length; j++)
-            isAvail[i][j]=0;
-        for (int i = 0; i < ChessPositonList.length; i++) {
-            ChessPositonList[i][0] = -1;
-            ChessPositonList[i][1] = -1;
-        }
-        turn=1;
-        numbers=0;
-    }
+
 
     //悔棋
     public boolean repentance(){
@@ -67,13 +67,14 @@ public abstract class Chess {
     public int getSurrenderer(){
         return turn;
     }
-    public void saveChess(String filenama){
-        saveArray(isAvail, filenama+"//isAvail.txt");
-        saveArray(ChessPositonList,filenama+"//ChessPositonList.txt");
+    public void saveChess(){
+        saveArray(isAvail, filenama+user.getUserID()+"_isAvail.txt");
+        saveArray(ChessPositonList,filenama+user.getUserID()+"_ChessPositonList.txt");
     }
-    public void loadChess(String filenama){
-        isAvail=readArray(filenama+"//isAvail.txt");
-        ChessPositonList=readArray(filenama+"//ChessPositonList.txt");
+
+    public void loadChess(){
+        isAvail=readArray(filenama+user.getUserID()+"_isAvail.txt");
+        ChessPositonList=readArray(filenama+user.getUserID()+"_ChessPositonList.txt");
         numbers=0;
         for (int i=0;i<ChessPositonList.length;i++)
             if (ChessPositonList[i][0]!=-1)
@@ -81,6 +82,17 @@ public abstract class Chess {
         if (numbers%2==0) turn=1;
         else turn=2;
     }
+    public int[][] playBack(){
+        loadChess();
+        int[][] result=new int[numbers][2];
+        for(int i=0;i<numbers;i++) {
+            result[i][0]=ChessPositonList[i][0];
+            result[i][1]=ChessPositonList[i][1];
+
+        }
+        return result;
+    }
+
     public boolean isHaveChess(int x,int y){
         if (isAvail[x][y]>0) return true;
         else return false;
@@ -188,4 +200,5 @@ public abstract class Chess {
     public abstract boolean canMove(int x,int y,int row);
     public abstract boolean move(int x,int y,int row);
 
+    public abstract void startGame();
 }

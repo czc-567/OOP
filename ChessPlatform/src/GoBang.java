@@ -2,10 +2,25 @@ import java.awt.*;
 
 public class GoBang extends Chess{
 
-    public GoBang(){
-        super.name="五子棋";
-    }
 
+    public GoBang(User user){
+        super.name="五子棋";
+        super.user=user;
+
+    }
+    public  void startGame(){
+        for (int i = 0; i < isAvail.length; i++)
+            for (int j = 0; j < isAvail.length; j++)
+                isAvail[i][j]=0;
+        for (int i = 0; i < ChessPositonList.length; i++) {
+            ChessPositonList[i][0] = -1;
+            ChessPositonList[i][1] = -1;
+        }
+        turn=1;
+        numbers=0;
+        winner=0;
+        initRepentance();
+    }
     public boolean canMove(int x,int y,int row) {
         if (isAvail[x][y] > 0) {
             return false;//已有棋子
@@ -150,6 +165,9 @@ public class GoBang extends Chess{
                     }
                 }
             }
+
+            if(numbers==ShapeConfig.getInstance().getRow()*ShapeConfig.getInstance().getCol())
+                winner=-1;
         }
         return true;
     }

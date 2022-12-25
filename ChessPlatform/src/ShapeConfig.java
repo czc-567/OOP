@@ -31,12 +31,14 @@ public class ShapeConfig {
 
     //只有第一次能设置
     synchronized public static void setShape(int startX,int startY,int size,int row,int col) {
-        if(instance == null){
-            instance = new ShapeConfig(startX,startY,size,row,col);
-        }
-        else {
-            System.out.println("单例模式类ShapeConfig已被初始化，无法重新初始化！");
-        }
+//        if(instance == null){
+//            instance = new ShapeConfig(startX,startY,size,row,col);
+//        }
+//        else {
+//            System.out.println("单例模式类ShapeConfig已被初始化，无法重新初始化！");
+//        }
+        instance = new ShapeConfig(startX,startY,size,row,col);
+
     }
 }
 

@@ -1,8 +1,9 @@
 public class Go extends Chess {
 
     private int[][] visit=new int[19][19];
-    public Go(){
+    public Go(User user){
         super.name="围棋";
+        super.user=user;
     }
     //提子
     public boolean take(int x, int y) {
@@ -15,6 +16,20 @@ public class Go extends Chess {
             isAvail[x][y]=-isAvail[x][y];//-1代表黑子不能下，白字能下
         }
         return true;
+    }
+
+    public void startGame(){
+        for (int i = 0; i < isAvail.length; i++)
+            for (int j = 0; j < isAvail.length; j++)
+                isAvail[i][j]=0;
+        for (int i = 0; i < ChessPositonList.length; i++) {
+            ChessPositonList[i][0] = -1;
+            ChessPositonList[i][1] = -1;
+        }
+        turn=1;
+        numbers=0;
+        winner=0;
+        initRepentance();
     }
 
     public boolean canMove(int x,int y,int row) {
@@ -63,4 +78,5 @@ public class Go extends Chess {
         }
         return isalive_flag;
     }
+
 }

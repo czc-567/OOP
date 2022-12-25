@@ -4,10 +4,15 @@ import java.awt.*;
 
 public class homepage  extends JPanel{
     private JFrame jf=new JFrame();
+    private JPanel jp=new JPanel();;
+    private User user;
 
+    public homepage(User user){
+        this.user=user;
+    }
     public void showHomepage() {
         //初始化一个界面,并设置标题大小等属性
-        homepagelistener listener=new homepagelistener(jf);
+        homepagelistener listener=new homepagelistener(jf,jp,user);
 
         jf.setTitle("首页");
         jf.setSize(280,350);
@@ -23,7 +28,6 @@ public class homepage  extends JPanel{
         jf.add(this,BorderLayout.CENTER);
 
         //实现右边的JPanel容器界面
-        JPanel jp=new JPanel();
         jp.setPreferredSize(dim1);
         jp.setBackground(Color.white);
         jf.add(jp,BorderLayout.EAST);//添加到框架布局的东边部分
@@ -34,7 +38,7 @@ public class homepage  extends JPanel{
         bq1.setBounds(70,50,80,30);
         jp.add(bq1);
 
-        String[] boxname1= {"五子棋","围棋"};
+        String[] boxname1= {"五子棋","围棋","黑白棋"};
         JComboBox box1=new JComboBox(boxname1);
         box1.setBounds(150,50,80,30);
         box1.addItemListener(listener);
@@ -50,6 +54,16 @@ public class homepage  extends JPanel{
         box2.setBounds(150,120,80,30);
         box2.addItemListener(listener);
         jp.add(box2);
+
+        String[] boxname3= {"8*8"};
+        JComboBox box3=new JComboBox(boxname3);
+        box3.setBounds(150,120,80,30);
+        box3.addItemListener(listener);
+        jp.add(box3);
+        jp.getComponent(4).setVisible(false);
+
+
+
 
         String butname= "开始游戏";
         JButton button=new JButton(butname);
